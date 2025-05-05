@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dashboard: `<h1>Welcome back, Admin!</h1><p>This is the dashboard overview.</p>`,
         products: `<h1>Products</h1>
                        <div class="product-dashboard">
-                           <button class="add-product-btn">+ Add Product</button>
+                           <button id="add-product-btn"class="add-product-btn">+ Add Product</button>
                            <button class="edit-product-btn">Edit Product</button>
                            <table class="product-table">
                                <thead>
@@ -70,5 +70,11 @@ const loadPage = (key) => {
     content.innerHTML = pages[key] || "<h1>Page not found</h1>";
     if (key === "products") renderProductTable();
 };
+//triggering the product.html when Add button clicked.
+document.addEventListener("click", function (e) {
+    if (e.target && e.target.id === "add-product-btn") {
+        window.location.href = "products.html"; // Change to your actual page path
+    }
+});
 
 
