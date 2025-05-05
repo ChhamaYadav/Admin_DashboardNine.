@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Products</title>
+    <link rel="stylesheet" href="products.css">
+    <script src="products.js" defer></script>
+</head>
+<header>
+    <div class ="header-left">
+        <h2>Nine.</h2>
+    </div>
+    <div class="header-right">
+        <a href="#" class="login login-only" id="login-btn" title="Login">
+            <i class="fas fa-user"></i></a>
+    </div>
+</header>
+<div class="product-form-modal">
+    <form id="productForm">
+        <h2>Add / Edit Product</h2>
+
+        <!-- Product Image Preview -->
+        <div class="image-preview">
+            <img id="previewImage" src="#" alt="Product Image" style="display:none;">
+        </div>
+
+        <!-- Image Upload -->
+        <label for="images">Upload Product Images (min 4):</label>
+        <input type="file" id="images" name="images" accept="image/*" multiple required>
+        <div id="previewContainer"></div>
+
+        <!-- Product Name -->
+        <label>Product Name</label>
+        <input type="text" id="name" placeholder="e.g. Leather Tote Bag" required>
+
+        <!-- Price -->
+        <label>Price (₹)</label>
+        <input type="number" id="price" placeholder="e.g. 3499" required>
+
+        <!-- Colors -->
+        <label>Available Colors</label>
+        <div class="color-options">
+            <input type="color" value="#000000">
+            <input type="color" value="#5C4033">
+            <input type="color" value="#B2C1A2">
+            <input type="color" value="#B2C1A2">
+            <input type="color" value="#B2C1A2">
+        </div>
+
+        <!-- Description -->
+        <label>Description</label>
+        <textarea id="description" placeholder="e.g. A stylish leather tote bag with ample storage..." required></textarea>
+
+        <label>In Stock</label>
+        <input type="number" id="quantity" placeholder="e.g. 10" required>
+
+        <!-- Status -->
+        <label>Status</label>
+        <select id="status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+
+        <!-- Buttons -->
+        <div class="form-buttons">
+            <button type="submit" class="add-btn">Add Product</button>
+            <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </form>
+</div>

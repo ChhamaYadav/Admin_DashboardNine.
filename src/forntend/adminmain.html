@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="adminpage.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+<div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">Nine.</div>
+        <nav class="nav-links">
+            <a href="#" id="dashboard-link" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="#" id="products-link" class="nav-item"><i class="fas fa-tshirt"></i> Products</a>
+            <a href="#" id="orders-link" class="nav-item"><i class="fas fa-receipt"></i> Orders</a>
+            <a href="#" id="users-link" class="nav-item"><i class="fas fa-users"></i> Users</a>
+            <a href="#" id="analytics-link" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="#" id="settings-link" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="admin-header">
+            <input type="text" placeholder="Search..." class="search-bar" />
+            <div class="header-icons">
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </header>
+
+        <!-- Dashboard content will go here -->
+        <section class="dashboard-body" id="main-content">
+            <h1>Welcome back to Nine. , Admin!</h1>
+            <!-- Tiles / Graphs / etc. -->
+        </section>
+    </main>
+</div>
+
+<script src="adminpage.js"></script>
+</body>
+</html>
