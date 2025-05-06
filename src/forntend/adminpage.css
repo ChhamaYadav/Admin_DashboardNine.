@@ -1,11 +1,19 @@
 /* Color Palette */
 :root {
-  --primary: 	#5E503F;
-  --secondary: #A49382;
-  --accent: #EED6C4;
-  --light-bg: #F3EDE8;
-  --buttermilk: #F6E7C1;
+  --primary:    #5E503F; /* Deep Olive Brown */
+  --secondary:  #A49382; /* Warm Taupe */
+  --accent:     #EED6C4; /* Pale Peach */
+  --light-bg:   #F3EDE8; /* Soft Cream */
+  --buttermilk: #F6E7C1; /* Buttermilk */
+
+  --warm-gray:  #D7CCC8; /* Light Mocha Gray */
+  --sandstone:  #CBB89D; /* Sandy Beige */
+  --dusty-rose: #D8A48F; /* Muted Warm Rose */
+  --bronze:     #8E735B; /* Rich Bronze Brown */
+  --coffee:     #4B3B2A; /* Deep Coffee */
+  --linen:      #FAF4ED; /* Almost White, Linen-Like */
 }
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -129,7 +137,8 @@
     background-color:var(--secondary);
 }
 
-.edit-product-btn {
+.edit-product-btn ,.delete-product-btn,
+.view-btn,.update-btn{
     padding: 10px 15px;
     background-color: var(--primary);
     color: var(--light-bg);
@@ -138,15 +147,21 @@
     cursor: pointer;
     margin-bottom: 15px;
 }
-.edit-product-btn:hover{
+
+.edit-product-btn:hover,.delete-product-btn:hover,
+.view-btn:hover,.update-btn:hover{
     background-color:var(--secondary);
 }
 
-.product-table {
+.product-table,.order-table {
     width: 100%;
     border-collapse: collapse;
     background: white;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.head-products,.head-orders{
+background-color:var(--sandstone);
 }
 
 .product-table th, .product-table td {
@@ -155,20 +170,28 @@
     text-align: left;
 }
 
-.edit-btn, .delete-btn {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+.order-table th, .order-table td {
+    padding: 12px 15px;
+    border: 1px solid #dcdde1;
+    text-align: left;
 }
 
-.edit-btn {
-    background-color: #f1c40f;
-    color: white;
-}
+}.order-table, .product-table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-top: 20px;
+ }
 
-.delete-btn {
-    background-color: #e74c3c;
-    color: white;
-}
+ .order-table th, .order-table td,
+ .product-table th, .product-table td {
+     border: 1px solid #ccc;
+     padding: 10px;
+     text-align: left;
+ }
+
+ .view-btn, .update-btn {
+     margin-right: 5px;
+     padding: 5px 10px;
+ }
+
 
