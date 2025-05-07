@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const content = document.getElementById("main-content");
 
     const pages = {
-        dashboard: `<h1>Welcome back, Admin!</h1> analytics: `
+        dashboard: `<h1>Welcome back, Admin!</h1>
                                                       <h1>Analytics</h1>
                                                       <div class="analytics-charts">
                                                           <div class="chart-container">
