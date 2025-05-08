@@ -57,10 +57,22 @@
                     <canvas id="countrySalesChart"></canvas>
                 </div>
             </div>
-
         </section>
     </main>
 </div>
+<div id="add-product-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" id="close-modal">&times;</span>
+        <h2>Add New Product</h2>
+        <form id="add-product-form">
+            <label>Name: <input type="text" name="name" required></label><br>
+            <label>Price: <input type="number" name="price" required></label><br>
+            <label>Stock: <input type="number" name="stock" required></label><br>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</div>
+
 
 <script src="adminpage.js"></script>
 <script src="adminStats.js"></script>

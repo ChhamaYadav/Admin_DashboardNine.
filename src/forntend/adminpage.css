@@ -116,11 +116,40 @@
     margin-top: 2rem;
 }
 
+.totalSalesChart{
+    background-color: none;
+}
+
+.analytics-charts {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.chart-row.large {
+    display: flex;
+    justify-content: center;
+}
+
+.chart-row.small {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
 .chart-container {
     background-color: white;
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.06);
+    flex: 1;
+    min-width: 300px;
+}
+
+.chart-row.large .chart-container {
+    width: 100%;
+    max-width: 1000px;
 }
 
 .chart-container h3 {
@@ -128,6 +157,13 @@
     color: var(--primary);
     font-size: 1.2rem;
 }
+
+/* Optional: Make sure canvas fills container */
+canvas {
+    width: 100% !important;
+    height: 300px !important;
+}
+
 
 
 .product-dashboard {
@@ -283,6 +319,135 @@ background-color:var(--sandstone);
      width: 100%;
      height: auto;
      border-radius: 10px;
+ }
+
+ /*Statistics card */
+ .dashboard-statstics-cards {
+     display: flex;
+     gap: 1.5rem;
+     margin-bottom: 2rem;
+     flex-wrap: wrap;
+ }
+
+ .stats-card,orders-card {
+     background-color: white;
+     padding: 1.25rem 1.5rem;
+     border-radius: 12px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+     flex: 1;
+     min-width: 200px;
+ }
+
+ .stats-card h4 {
+     margin-bottom: 0.5rem;
+     font-size: 1.2rem;
+     color: #B85C5C;
+     font-align: center;
+ }
+
+ .stats-card p {
+     font-size: 1.5rem;
+     font-weight: bold;
+     margin: 0;
+ }
+
+ .stats-card .status {
+     font-size: 0.875rem;
+     font-weight: normal;
+     color: #888;
+     margin-left: 0.5rem;
+ }
+
+ .status.pending {
+     color: orange;
+ }
+ .card-change.positive span {
+   color: green;
+   font-weight: bold;
+   margin-right: 6px;
+ }
+
+ .card-change.negative span {
+   color: red;
+   font-weight: bold;
+   margin-right: 6px;
+ }
+
+ /*Orders card */
+ .dashboard-orders-cards {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+  }
+
+ .orders-card {
+
+       padding: 1.25rem 1.5rem;
+       border-radius: 12px;
+       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+       flex: 1;
+       min-width: 200px;
+   }
+   .orders-card-pending{
+             background-color:#B85C5C ;
+             font:white;
+             padding: 1.25rem 1.5rem;
+             border-radius: 12px;
+             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+             flex: 1;
+             min-width: 200px;
+   }
+   .orders-card-delivered {
+          background-color:#6B8F71 ;
+          font:white;
+          padding: 1.25rem 1.5rem;
+          border-radius: 12px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+          flex: 1;
+          min-width: 200px;
+      }
+   .orders-card-shipped{
+             background-color: #D4A017;
+             font:white;
+             padding: 1.25rem 1.5rem;
+             border-radius: 12px;
+             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+             flex: 1;
+             min-width: 200px;
+      }
+
+ .orders-card,.orders-card-delivered h4 {
+     margin-bottom: 0.5rem;
+     font-size: 1.2rem;
+     color: var( --light-bg);
+     font-align: center;
+ }
+
+ /* dropdown- shippment status of order*/
+ .status {
+     font-weight: bold;
+     padding: 5px 10px;
+     border-radius: 8px;
+     display: inline-block;
+     text-align: center;
+ }
+
+ .status-pending {
+     background-color: #B85C5C; /* Light red */
+ }
+
+ .status-shipped {
+     background-color: #E0C35A; /* Light Yellow */
+ }
+
+ .status-delivered {
+     background-color: #6B8F71; /* Light green */
+ }
+
+ .status-dropdown {
+     padding: 0.25rem;
+     border-radius: 4px;
  }
 
 

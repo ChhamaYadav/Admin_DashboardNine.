@@ -7,7 +7,7 @@
       datasets: [{
         label: 'Total Sales',
         data: [1200, 1500, 1800, 2000, 2200],
-        borderColor: '#2196F3',
+        borderColor: '#D7CCC8',
         backgroundColor: 'rgba(33,150,243,0.1)',
         tension: 0.4,
         fill: true
@@ -32,9 +32,9 @@
   new Chart(document.getElementById("productSalesChart"), {
     type: 'pie',
     data: {
-      labels: ['Dresses', 'Tops', 'Bottoms', 'Accessories'],
+      labels: ['Tote', 'Slings', 'Clutches', 'Backpacks','wallets','mini bags'],
       datasets: [{
-        data: [40, 25, 20, 15],
+        data: [40, 25, 20, 15,13,9],
         backgroundColor: ['#E91E63', '#9C27B0', '#3F51B5', '#009688']
       }]
     }

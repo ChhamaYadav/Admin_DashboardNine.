@@ -3,24 +3,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const pages = {
         dashboard: `<h1>Welcome back, Admin!</h1>
-                                                      <h1>Analytics</h1>
+        <div class="dashboard-statstics-cards">
+            <div class="stats-card">
+                <h4>Total Orders</h4>
+
+                <p>1,245
+                 <div class="card-change positive">
+                    <span>↑ 23.5%</span> from last week
+                 </div>
+                 <span class="status pending">• 43 Pending</span></p>
+            </div>
+            <div class="stats-card">
+                <h4>Total Sales</h4>
+                <p>$87,400</p>
+                <div class="card-change positive">
+                    <span>↑ 12.5%</span> from last week
+                  </div>
+            </div>
+            <div class="stats-card">
+                <h4>Products Sold</h4>
+                <p>3,120</p>
+                 <div class="card-change positive">
+                 <span>↑ 13.5%</span> from last week
+                 </div>
+            </div>
+            <div class="stats-card">
+                <h4>Countries Reached</h4>
+                <p>27</p>
+            </div>
+        </div>
+                <!-- Charts Layout (same as before) -->
                                                       <div class="analytics-charts">
-                                                          <div class="chart-container">
-                                                              <h3>Total Sales</h3>
-                                                              <canvas id="totalSalesChart"></canvas>
-                                                          </div>
-                                                          <div class="chart-container">
-                                                              <h3>Previous Monthly Sales</h3>
-                                                              <canvas id="previousSalesChart"></canvas>
-                                                          </div>
-                                                          <div class="chart-container">
-                                                              <h3>Sales by Product</h3>
-                                                              <canvas id="productSalesChart"></canvas>
-                                                          </div>
-                                                          <div class="chart-container">
-                                                              <h3>Sales by Country</h3>
-                                                              <canvas id="countrySalesChart"></canvas>
-                                                          </div>
+                                                      <div class="chart-row large">
+                                                       <div class="chart-container">
+                                                                                                                    <h3>Total Sales</h3>
+                                                                                                                    <canvas id="totalSalesChart"></canvas>
+                                                                                                                </div>
+                                                      </div>
+                                                        <div class="chart-row small">
+                                                            <div class="chart-container">
+                                                                                                                          <h3>Previous Monthly Sales</h3>
+                                                                                                                          <canvas id="previousSalesChart"></canvas>
+                                                                                                                      </div>
+                                                                                                                      <div class="chart-container">
+                                                                                                                          <h3>Sales by Product</h3>
+                                                                                                                          <canvas id="productSalesChart"></canvas>
+                                                                                                                      </div>
+                                                                                                                      <div class="chart-container">
+                                                                                                                          <h3>Sales by Country</h3>
+                                                                                                                          <canvas id="countrySalesChart"></canvas>
+                                                                                                                      </div>
+                                                        </div>
+
+
+
                                                       </div>
 `,
 
@@ -44,17 +80,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
         orders: `<h1>Orders</h1>
                  <div class="order-dashboard">
+                 <div class="dashboard-orders-cards">
+                             <div class="orders-card-pending">
+                                 <h4>Orders Pending</h4>
+                                    <p>450
+                                  </p>
+                             </div>
+                             <div class="orders-card-shipped">
+                                 <h4>Orders Shipped</h4>
+                                 <p>120</p>
+
+                             </div>
+                             <div class="orders-card-delivered">
+                                 <h4>Orders Delivered</h4>
+                                 <p>356</p>
+                                  </div>
                      <table class="order-table">
                          <thead class="head-orders">
                              <tr>
+                                <th>Status</th>
                                  <th>Order ID</th>
                                  <th>Customer</th>
                                  <th>Date</th>
-                                 <th>Status</th>
-                                 <th>Total</th>
+                                <th>Total</th>
                                  <th>Actions</th>
                              </tr>
                          </thead>
+                         <tbody>
+                         <tr class="order-now">
+                         </tbody>
                          <tbody id="order-table-body"></tbody>
                      </table>
                  </div>`,
@@ -140,9 +194,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     const ordersData = [
-        { id: 101, customer: "John Doe", date: "2025-05-01", status: "Pending", total: "$120.00" },
-        { id: 102, customer: "Jane Smith", date: "2025-05-03", status: "Shipped", total: "$75.00" },
-        { id: 103, customer: "Alice Johnson", date: "2025-05-06", status: "Delivered", total: "$200.00" },
+        { status: "Pending",id: 101, customer: "John Doe", date: "2025-05-01",  total: "$120.00" },
+        { status: "Shipped",id: 102, customer: "Jane Smith", date: "2025-05-03",  total: "$75.00" },
+        { status: "Delivered",id: 103, customer: "Alice Johnson", date: "2025-05-06",  total: "$200.00" },
     ];
 
     const usersData=[
@@ -169,18 +223,38 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    document.addEventListener("change",function(e){
+        if(e.target.classList.contains("status-dropdown")){
+        const dropdown = e.target;
+
+                // Remove any previously applied status class
+                dropdown.classList.remove("status-pending", "status-shipped", "status-delivered");
+
+                // Get new selected value
+                const newStatus = dropdown.value.toLowerCase();
+
+                // Add the new status class
+                dropdown.classList.add(`status-${newStatus}`);
+        }
+    });
+
     function renderOrderTable() {
         const tableBody = document.getElementById("order-table-body");
         if (!tableBody) return;
 
         tableBody.innerHTML = "";
         ordersData.forEach(order => {
+        const statusClass=`status-${order.status.toLowerCase()}`;//fetching status in dropdown
             tableBody.innerHTML += `
                 <tr>
+                <td><select class="status-dropdown ${statusClass}">
+                                                <option value="pending" ${order.status === "Pending" ? "selected" : ""}>Pending</option>
+                                                <option value="shipped" ${order.status === "Shipped" ? "selected" : ""}>Shipped</option>
+                                                <option value="delivered" ${order.status === "Delivered" ? "selected" : ""}>Delivered</option>
+                                            </select></td>
                     <td>${order.id}</td>
                     <td>${order.customer}</td>
                     <td>${order.date}</td>
-                    <td>${order.status}</td>
                     <td>${order.total}</td>
                     <td><button class="view-btn">View</button>
                     <button class="update-btn">Update</button></td>
@@ -234,7 +308,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add product button
     document.addEventListener("click", function (e) {
         if (e.target && e.target.id === "add-product-btn") {
-            window.location.href = "products.html"; // Or handle modal/form SPA-style
+            document.getElementById("add-product-modal").classList.remove("hidden");
+        }
+        if (e.target && e.target.id === "close-modal") {
+            document.getElementById("add-product-modal").classList.add("hidden");
         }
     });
 
@@ -297,7 +374,7 @@ function renderStatistics() {
             datasets: [{
                 label: 'Total Sales',
                 data: [1200, 1500, 1800, 2000, 2200],
-                borderColor: '#2196F3',
+                borderColor: '#CBB89D',
                 backgroundColor: 'rgba(33,150,243,0.1)',
                 tension: 0.4,
                 fill: true
@@ -313,7 +390,7 @@ function renderStatistics() {
             datasets: [{
                 label: 'Sales',
                 data: [300, 400, 500, 600],
-                backgroundColor: '#FF9800'
+                backgroundColor: '#A49382'
             }]
         }
     });
@@ -322,10 +399,10 @@ function renderStatistics() {
     new Chart(document.getElementById("productSalesChart"), {
         type: 'pie',
         data: {
-            labels: ['Dresses', 'Tops', 'Bottoms', 'Accessories'],
+            labels: ['Tote', 'Bagpacks', 'Slings', 'Wallets','Clutches','Duffel'],
             datasets: [{
-                data: [40, 25, 20, 15],
-                backgroundColor: ['#E91E63', '#9C27B0', '#3F51B5', '#009688']
+                data: [40, 25, 20, 15,12,14],
+                backgroundColor: ['#D7CCC8', '#CBB89D', '#D8A48F', '#8E735B','#4B3B2A','#FAF4ED']
             }]
         }
     });
@@ -337,10 +414,12 @@ function renderStatistics() {
             labels: ['India', 'Thailand', 'USA', 'UK'],
             datasets: [{
                 data: [50, 20, 15, 15],
-                backgroundColor: ['#4CAF50', '#FFC107', '#03A9F4', '#F44336']
+                backgroundColor: ['#D7CCC8', '#CBB89D', '#D8A48F', '#8E735B','#4B3B2A','#FAF4ED']
             }]
         }
     });
 }
+
+
 
 
