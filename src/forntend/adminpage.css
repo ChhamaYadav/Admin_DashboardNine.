@@ -373,6 +373,18 @@ background-color:var(--sandstone);
    margin-right: 6px;
  }
 
+ /*Notificaion badge*/
+ .badge {
+     background-color: #D4A017; /* Gold - matches your palette */
+     color: white;
+     padding: 2px 8px;
+     border-radius: 12px;
+     font-size: 12px;
+     margin-left: 8px;
+     font-weight: bold;
+ }
+
+
  /*Orders card */
  .dashboard-orders-cards {
       display: flex;
@@ -391,7 +403,7 @@ background-color:var(--sandstone);
    }
    .orders-card-pending{
              background-color:#B85C5C ;
-             font:white;
+
              padding: 1.25rem 1.5rem;
              border-radius: 12px;
              box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);

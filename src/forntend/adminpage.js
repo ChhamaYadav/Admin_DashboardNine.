@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     const content = document.getElementById("main-content");
-
     const pages = {
         dashboard: `<h1>Welcome back, Admin!</h1>
         <div class="dashboard-statstics-cards">
@@ -420,6 +419,12 @@ function renderStatistics() {
     });
 }
 
+// Simulated values for demo
+const newUsers = 73;
+const pendingOrders = 450;
+
+document.getElementById('user-badge').textContent = newUsers;
+document.getElementById('order-badge').textContent = pendingOrders;
 
 
 
