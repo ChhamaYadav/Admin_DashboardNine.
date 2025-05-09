@@ -83,30 +83,41 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
     margin-bottom: 30px;
-    padding: 10px 0;
     border-bottom: 1px solid #dcdde1;
+    flex-wrap: wrap; /* enables responsiveness */
+    gap: 1rem; /* space between elements when wrapping */
 }
 
 .search-bar {
+    flex: 1 1 250px;  /* flex-grow: 1, shrink: 1, basis: 250px */
+    max-width: 400px;
     padding: 8px 12px;
-    width: 250px;
     border: 1px solid #ced6e0;
     border-radius: 5px;
     font-size: 1rem;
+    min-width: 180px;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
 }
 
 .header-icons i {
-    font-size: 1.4rem;
-    margin-left: 20px;
-    cursor: pointer;
+    font-size: 1.6rem;
     color: var(--primary);
+    cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .header-icons i:hover {
     color: var(--accent);
 }
+
 
 /* Dashboard Content */
 .analytics-charts {
@@ -241,7 +252,7 @@ background-color:var(--sandstone);
      padding: 5px 10px;
  }
 
- .analytics-cards {
+ .analytics-cards ,.dashboard-orders-cards{
      display: flex;
      gap: 1.5rem;
      margin-bottom: 2rem;
@@ -266,22 +277,24 @@ background-color:var(--sandstone);
      font-size: 2rem;
      margin-right: 1rem;
  }
- .card-info h3 {
+ .card-info h3,
+  .orders-card-pending h4{
      font-size: 1.5rem;
      margin: 0;
  }
- .card-info p {
+ .card-info p,
+  .orders-card-pending p{
      margin: 0;
      font-size: 0.9rem;
  }
  .card.green {
-     background-color: #4CAF50;
+     background-color: #6B8F71;
  }
  .card.orange {
-     background-color: #FF9800;
+     background-color: #B88A5C;
  }
  .card.blue {
-     background-color: #2196F3;
+     background-color: #5C7DB8;
  }
 
  .analytics-lower {
@@ -386,15 +399,7 @@ background-color:var(--sandstone);
 
 
  /*Orders card */
- .dashboard-orders-cards {
-      display: flex;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-  }
-
  .orders-card {
-
        padding: 1.25rem 1.5rem;
        border-radius: 12px;
        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -403,7 +408,7 @@ background-color:var(--sandstone);
    }
    .orders-card-pending{
              background-color:#B85C5C ;
-
+             color:white;
              padding: 1.25rem 1.5rem;
              border-radius: 12px;
              box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -412,7 +417,7 @@ background-color:var(--sandstone);
    }
    .orders-card-delivered {
           background-color:#6B8F71 ;
-          font:white;
+          color:white;
           padding: 1.25rem 1.5rem;
           border-radius: 12px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -421,20 +426,131 @@ background-color:var(--sandstone);
       }
    .orders-card-shipped{
              background-color: #D4A017;
-             font:white;
+             color:white;
              padding: 1.25rem 1.5rem;
              border-radius: 12px;
              box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
              flex: 1;
              min-width: 200px;
       }
+      .orders-card-pending:hover,
+      .orders-card-shipped:hover,
+      .orders-card-delivered:hover{
+        transform: translateY(-5px);
+      }
 
- .orders-card,.orders-card-delivered h4 {
-     margin-bottom: 0.5rem;
-     font-size: 1.2rem;
-     color: var( --light-bg);
-     font-align: center;
+
+ .orders-card-pending .icon,
+ .orders-card-shipped .icon,
+ .orders-card-delivered .icon {
+     font-size: 2rem;
+     margin-right: 1rem; /* centers the icon horizontally */
  }
+ .dashboard-orders-cards p{
+      font-size: 1.5rem;
+      color:white;
+      align:center;
+ }
+
+ /* Modal of Add New Product modal */
+ .modal.hidden {
+      display: none;
+  }
+ .modal {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     display: flex; /* centers modal box */
+     justify-content: center;
+     align-items: center;
+     background-color: rgba(0, 0, 0, 0.4); /* dim background */
+     z-index: 1000;
+ }
+ .add-btn {
+   background-color: #6B8F71;
+   color: white;
+   border: none;
+   padding: 10px 16px;
+   border-radius: 10px;
+   cursor: pointer;
+ }
+
+ .cancel-btn {
+   background-color: #B85C5C;
+   color: white;
+   border: none;
+   padding: 10px 16px;
+   border-radius: 10px;
+   cursor: pointer;
+ }
+
+ textarea {
+   resize: vertical;
+ }
+
+ .color-options input {
+   margin-right: 8px;
+   border: none;
+   width: 30px;
+   height: 30px;
+   cursor: pointer;
+ }
+
+ .image-preview img {
+   width: 100%;
+   border-radius: 12px;
+   margin-bottom: 10px;
+ }
+
+ .form-buttons {
+   display: flex;
+   justify-content: space-between;
+   margin-top: 20px;
+ }
+
+ label {
+   font-weight: bold;
+   display: block;
+   margin: 10px 0 5px;
+ }
+
+ input[type="text"], input[type="number"], select, textarea {
+   width: 100%;
+   padding: 8px;
+   border-radius: 10px;
+   border: 1px solid #ccc;
+   background: #fff;
+   margin-bottom: 10px;
+ }
+
+ /* Modal content box */
+ .modal-content {
+     background: white;
+     padding: 20px 30px;
+     border-radius: 8px;
+     width: 400px;
+     max-width: 90%;
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+     position: relative;
+ }
+
+ /* Close button */
+ .close-btn {
+     position: absolute;
+     top: 10px;
+     right: 15px;
+     font-size: 20px;
+     font-weight: bold;
+     cursor: pointer;
+ }
+
+ /* Hidden class to hide the modal */
+ .modal.hidden {
+     display: none;
+ }
+
 
  /* dropdown- shippment status of order*/
  .status {
@@ -461,6 +577,7 @@ background-color:var(--sandstone);
      padding: 0.25rem;
      border-radius: 4px;
  }
+
 
 
 

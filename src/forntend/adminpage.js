@@ -75,24 +75,86 @@ document.addEventListener("DOMContentLoaded", () => {
                            </thead>
                            <tbody id="product-table-body"></tbody>
                        </table>
+                   </div>
+                   <div id="add-product-modal" class="modal hidden">
+                       <div class="modal-content">
+                           <span class="close-btn" id="close-modal">&times;</span>
+                            <form id="productForm">
+                                   <h2>Add / Edit Product</h2>
+
+                                   <!-- Product Image Preview -->
+                                   <div class="image-preview">
+                                       <img id="previewImage" src="#" alt="Product Image" style="display:none;">
+                                   </div>
+
+                                   <!-- Image Upload -->
+                                   <label for="images">Upload Product Images (min 4):</label>
+                                   <input type="file" id="images" name="images" accept="image/*" multiple required>
+                                   <div id="previewContainer"></div>
+
+                                   <!-- Product Name -->
+                                   <label>Product Name</label>
+                                   <input type="text" id="name" placeholder="e.g. Leather Tote Bag" required>
+
+                                   <!-- Price -->
+                                   <label>Price (₹)</label>
+                                   <input type="number" id="price" placeholder="e.g. 3499" required>
+
+                                   <!-- Colors -->
+                                   <label>Available Colors</label>
+                                   <div class="color-options">
+                                       <input type="color" value="#000000">
+                                       <input type="color" value="#5C4033">
+                                       <input type="color" value="#B2C1A2">
+                                       <input type="color" value="#B2C1A2">
+                                       <input type="color" value="#B2C1A2">
+                                   </div>
+
+                                   <!-- Description -->
+                                   <label>Description</label>
+                                   <textarea id="description" placeholder="e.g. A stylish leather tote bag with ample storage..." required></textarea>
+
+                                   <label>In Stock</label>
+                                   <input type="number" id="quantity" placeholder="e.g. 10" required>
+
+                                   <!-- Status -->
+                                   <label>Status</label>
+                                   <select id="status">
+                                       <option value="active">Active</option>
+                                       <option value="inactive">Inactive</option>
+                                   </select>
+
+                                   <!-- Buttons -->
+                                   <div class="form-buttons">
+                                       <button type="submit" class="add-btn">Add Product</button>
+                                       <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+                                   </div>
+                               </form>
+                       </div>
                    </div>`,
 
         orders: `<h1>Orders</h1>
                  <div class="order-dashboard">
                  <div class="dashboard-orders-cards">
                              <div class="orders-card-pending">
+                              <i class="fas fa-hourglass-half icon"></i>
+                              <div class="card-info">
                                  <h4>Orders Pending</h4>
                                     <p>450
-                                  </p>
+                                  </p></div>
                              </div>
                              <div class="orders-card-shipped">
+                             <i class="fas fa-truck icon"></i>
+                             <div class="card-info">
                                  <h4>Orders Shipped</h4>
                                  <p>120</p>
-
+                             </div>
                              </div>
                              <div class="orders-card-delivered">
+                             <i class="fas fa-box-open icon"></i>
+                             <div class="card-info">
                                  <h4>Orders Delivered</h4>
-                                 <p>356</p>
+                                 <p>356</p></div>
                                   </div>
                      <table class="order-table">
                          <thead class="head-orders">
@@ -305,14 +367,48 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Add product button
-    document.addEventListener("click", function (e) {
-        if (e.target && e.target.id === "add-product-btn") {
-            document.getElementById("add-product-modal").classList.remove("hidden");
-        }
-        if (e.target && e.target.id === "close-modal") {
-            document.getElementById("add-product-modal").classList.add("hidden");
-        }
-    });
+   // Show/hide modal
+   document.addEventListener("click", function (e) {
+       if (e.target && e.target.id === "add-product-btn") {
+           document.getElementById("add-product-modal").classList.remove("hidden");
+       }
+       if (e.target && e.target.id === "close-modal") {
+           document.getElementById("add-product-modal").classList.add("hidden");
+       }
+   });
+
+   // Handle Add Product form submission
+   document.addEventListener("submit", function (e) {
+       if (e.target && e.target.id === "add-product-form") {
+           e.preventDefault();
+
+           const form = e.target;
+           const name = form.name.value.trim();
+           const price = parseFloat(form.price.value);
+           const stock = parseInt(form.stock.value, 10);
+
+           if (!name || isNaN(price) || isNaN(stock)) {
+               alert("Please enter valid product details.");
+               return;
+           }
+
+           // Add new product to data
+           const newProduct = {
+               id: productsData.length ? productsData[productsData.length - 1].id + 1 : 1,
+               name,
+               price: `$${price.toFixed(2)}`,
+               stock
+           };
+
+           productsData.push(newProduct);
+
+           // Update table and close modal
+           renderProductTable();
+           form.reset();
+           document.getElementById("add-product-modal").classList.add("hidden");
+       }
+   });
+
 
     // Load initial view
     loadPage("dashboard");
@@ -426,5 +522,35 @@ const pendingOrders = 450;
 document.getElementById('user-badge').textContent = newUsers;
 document.getElementById('order-badge').textContent = pendingOrders;
 
+//for adding minimum add four pictures
+document.getElementById('images').addEventListener('change', function () {
+  const previewContainer = document.getElementById('previewContainer');
+  previewContainer.innerHTML = ""; // Clear previous previews
+
+  const files = this.files;
+
+  if (files.length < 4) {
+    alert("Please upload at least 4 images.");
+    return;
+  }
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    if (!file.type.startsWith('image/')) continue;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.width = "100px";
+      img.style.height = "100px";
+      img.style.margin = "5px";
+      img.style.objectFit = "cover";
+      previewContainer.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  }
+});
 
 
