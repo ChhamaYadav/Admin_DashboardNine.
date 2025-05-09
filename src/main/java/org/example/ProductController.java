@@ -19,9 +19,13 @@ public class ProductController {
     }
 
 //    Deleting the product
-    @DeleteMapping("/delete/{id}")
-    private ResponseEntity<Void> deleteProduct(@PathVariable Long id){
+@DeleteMapping("/delete/{id}")
+public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    if (productService.existsById(id)) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    } else {
+        return ResponseEntity.notFound().build();
     }
+}
 }

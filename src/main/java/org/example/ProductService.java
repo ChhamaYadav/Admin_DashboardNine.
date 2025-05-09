@@ -16,4 +16,8 @@ public class ProductService {
      public void deleteProduct(Long productId) {
         productRepository.deleteById(productId);
      }
+
+    public boolean existsById(Long id) {
+        return productRepository.existsById(id);
+    }
 }
