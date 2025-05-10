@@ -248,12 +248,6 @@ document.addEventListener("DOMContentLoaded", () => {
         settings: `<h1>Settings</h1><p>Change your dashboard settings.</p>`,
     };
 
-    const productsData = [
-        { id: 1, name: "T-Shirt", stock: 120, price: "$15.00" },
-        { id: 2, name: "Jeans", stock: 45, price: "$40.00" },
-        { id: 3, name: "Jacket", stock: 25, price: "$70.00" }
-    ];
-
     const ordersData = [
         { status: "Pending",id: 101, customer: "John Doe", date: "2025-05-01",  total: "$120.00" },
         { status: "Shipped",id: 102, customer: "Jane Smith", date: "2025-05-03",  total: "$75.00" },
@@ -378,36 +372,88 @@ document.addEventListener("DOMContentLoaded", () => {
    });
 
    // Handle Add Product form submission
-   document.addEventListener("submit", function (e) {
-       if (e.target && e.target.id === "add-product-form") {
+   document.addEventListener("submit", async function (e) {
+       if (e.target && e.target.id === "productForm") {
            e.preventDefault();
 
-           const form = e.target;
-           const name = form.name.value.trim();
-           const price = parseFloat(form.price.value);
-           const stock = parseInt(form.stock.value, 10);
+           const name = document.getElementById("name").value.trim();
+           const price = parseFloat(document.getElementById("price").value);
+           const description = document.getElementById("description").value.trim();
+           const quantity = parseInt(document.getElementById("quantity").value);
+           const status = document.getElementById("status").value;
 
-           if (!name || isNaN(price) || isNaN(stock)) {
-               alert("Please enter valid product details.");
-               return;
-           }
+           // Extract color values from color pickers
+           const colorInputs = document.querySelectorAll(".color-options input[type=color]");
+           const colors = Array.from(colorInputs).map(input => input.value);
 
-           // Add new product to data
-           const newProduct = {
-               id: productsData.length ? productsData[productsData.length - 1].id + 1 : 1,
-               name,
-               price: `$${price.toFixed(2)}`,
-               stock
+//           // Extract image URLs from preview images
+//           const imageElements = document.querySelectorAll("#previewContainer img");
+//           const imageURLs = Array.from(imageElements).map(img => img.src);  // These are base64 or URLs
+
+
+//const name = "Test Product";
+//const price = 99.99;
+//const description = "This is a test product description.";
+//const colors = ["Teal", "Brown", "Black"];
+//const quantity = 10;
+//const status = "Available";
+ // red, green, blue
+//const imageURLs = [
+//    "https://via.placeholder.com/150",
+//    "https://via.placeholder.com/150",
+//    "https://via.placeholder.com/150",
+//    "https://via.placeholder.com/150"
+//];
+
+//           if (!name || isNaN(price) || isNaN(quantity) || colors.length < 1 || imageURLs.length < 4) {
+//               alert("Please fill all fields and add at least 4 images.");
+//               return;
+//           }
+
+           const productData = {
+               productName: name,
+               productPrice: price,
+               description: description,
+               productColors: colors,
+               productQuantity: quantity,
+               productStatus: status,
+               productimage_URL: imageURLs
            };
 
-           productsData.push(newProduct);
+           try {
+               const response = await fetch("http://localhost:8080/api/products/save", {
+                   method: "POST",
+                   headers: {
+                       "Content-Type": "application/json"
+                   },
+                   body: JSON.stringify(productData)
+               });
 
-           // Update table and close modal
-           renderProductTable();
-           form.reset();
-           document.getElementById("add-product-modal").classList.add("hidden");
+               if (!response.ok) throw new Error("Failed to save product");
+
+               const savedProduct = await response.json();
+               alert("Product added to database!");
+               console.log("Raw backend response :",savedProduct);
+
+               productsData.push({
+                   id: savedProduct.productId,
+                   name: savedProduct.productName,
+                   stock: savedProduct.productQuantity,
+                   price: `$${savedProduct.productPrice.toFixed(2)}`
+               });
+
+               renderProductTable();
+               document.getElementById("productForm").reset();
+               document.getElementById("images").value = null;
+               document.getElementById("previewContainer").innerHTML = "";
+               document.getElementById("add-product-modal").classList.add("hidden");
+           } catch (err) {
+               console.error(err);
+               alert("Error saving product. Check console.");
+           }
        }
    });
+
 
 
     // Load initial view

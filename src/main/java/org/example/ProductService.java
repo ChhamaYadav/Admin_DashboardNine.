@@ -3,6 +3,8 @@ package org.example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -19,5 +21,9 @@ public class ProductService {
 
     public boolean existsById(Long id) {
         return productRepository.existsById(id);
+    }
+
+    public List<Product> findAll(){
+        return productRepository.findAll();
     }
 }
