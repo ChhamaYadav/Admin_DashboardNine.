@@ -260,23 +260,38 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: 3, username: "user3", signupDate: "2025-01-22", country: "Germany" },
     ];
 
-    function renderProductTable() {
-        const tableBody = document.getElementById("product-table-body");
-        if (!tableBody) return;
+async function renderProductTable() {
+    const tableBody = document.getElementById("product-table-body");
+    if (!tableBody) return;
 
-        tableBody.innerHTML = "";
-        productsData.forEach(product => {
+    tableBody.innerHTML = "";
+
+    try {
+        const response = await fetch("http://localhost:8080/api/products/showAll");
+        if (!response.ok) throw new Error("Failed to fetch products");
+
+        const products = await response.json();
+
+        products.forEach(product => {
             tableBody.innerHTML += `
                 <tr>
-                    <td>${product.id}</td>
-                    <td>${product.name}</td>
-                    <td>${product.stock}</td>
-                    <td>${product.price}</td>
-                    <td><button class="edit-product-btn">Edit</button>
-                    <button class="delete-product-btn">Delete</button></td>
-                </tr>`;
+                    <td>${product.productId}</td>
+                    <td>${product.productName}</td>
+                    <td>${product.productQuantity}</td>
+                    <td>$${parseFloat(product.productPrice).toFixed(2)}</td>
+                    <td>
+                        <button class="edit-product-btn">Edit</button>
+                        <button class="delete-product-btn">Delete</button>
+                    </td>
+                </tr>
+            `;
         });
+    } catch (err) {
+        console.error("Error loading products:", err);
+        tableBody.innerHTML = "<tr><td colspan='5'>Failed to load products.</td></tr>";
     }
+}
+
 
     document.addEventListener("change",function(e){
         if(e.target.classList.contains("status-dropdown")){
