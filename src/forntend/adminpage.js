@@ -385,45 +385,55 @@ async function renderProductTable() {
            document.getElementById("add-product-modal").classList.add("hidden");
        }
    });
+   async function uploadImagesToCloudinary(files) {
+       const uploadedUrls = [];
+       const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dwptrcyua/upload';
+       const CLOUDINARY_UPLOAD_PRESET = 'Nine.-products';
+
+       for (const file of files) {
+           const formData = new FormData();
+           formData.append("file", file);
+           formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+           try {
+               const res = await fetch(CLOUDINARY_URL, {
+                   method: "POST",
+                   body: formData
+               });
+               const data = await res.json();
+               uploadedUrls.push(data.secure_url);
+           } catch (err) {
+               console.error("Upload error:", err);
+           }
+       }
+
+       return uploadedUrls;
+   }
+
 
    // Handle Add Product form submission
    document.addEventListener("submit", async function (e) {
        if (e.target && e.target.id === "productForm") {
            e.preventDefault();
 
+           const files = document.getElementById("images").files;
+           if (files.length < 4) {
+               alert("Please upload at least 4 images.");
+               return;
+           }
+
+           // Upload images to Cloudinary
+           const imageURLs = await uploadImagesToCloudinary(files);
+
+           // Collect other form data
            const name = document.getElementById("name").value.trim();
            const price = parseFloat(document.getElementById("price").value);
            const description = document.getElementById("description").value.trim();
            const quantity = parseInt(document.getElementById("quantity").value);
            const status = document.getElementById("status").value;
 
-           // Extract color values from color pickers
            const colorInputs = document.querySelectorAll(".color-options input[type=color]");
            const colors = Array.from(colorInputs).map(input => input.value);
-
-//           // Extract image URLs from preview images
-//           const imageElements = document.querySelectorAll("#previewContainer img");
-//           const imageURLs = Array.from(imageElements).map(img => img.src);  // These are base64 or URLs
-
-
-//const name = "Test Product";
-//const price = 99.99;
-//const description = "This is a test product description.";
-//const colors = ["Teal", "Brown", "Black"];
-//const quantity = 10;
-//const status = "Available";
- // red, green, blue
-//const imageURLs = [
-//    "https://via.placeholder.com/150",
-//    "https://via.placeholder.com/150",
-//    "https://via.placeholder.com/150",
-//    "https://via.placeholder.com/150"
-//];
-
-//           if (!name || isNaN(price) || isNaN(quantity) || colors.length < 1 || imageURLs.length < 4) {
-//               alert("Please fill all fields and add at least 4 images.");
-//               return;
-//           }
 
            const productData = {
                productName: name,
@@ -432,7 +442,7 @@ async function renderProductTable() {
                productColors: colors,
                productQuantity: quantity,
                productStatus: status,
-               productimage_URL: imageURLs
+               productimage_URL: imageURLs  // Final URLs from Cloudinary
            };
 
            try {
@@ -446,20 +456,8 @@ async function renderProductTable() {
 
                if (!response.ok) throw new Error("Failed to save product");
 
-               const savedProduct = await response.json();
-               alert("Product added to database!");
-               console.log("Raw backend response :",savedProduct);
-
-               productsData.push({
-                   id: savedProduct.productId,
-                   name: savedProduct.productName,
-                   stock: savedProduct.productQuantity,
-                   price: `$${savedProduct.productPrice.toFixed(2)}`
-               });
-
-               renderProductTable();
+               alert("Product added successfully!");
                document.getElementById("productForm").reset();
-               document.getElementById("images").value = null;
                document.getElementById("previewContainer").innerHTML = "";
                document.getElementById("add-product-modal").classList.add("hidden");
            } catch (err) {
@@ -468,9 +466,6 @@ async function renderProductTable() {
            }
        }
    });
-
-
-
     // Load initial view
     loadPage("dashboard");
 });
