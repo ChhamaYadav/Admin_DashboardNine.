@@ -42,4 +42,11 @@ public class ProductController {
         return new ResponseEntity<>(showProducts,HttpStatus.OK);
     }
 
+    @GetMapping("/getRequiredDetails")
+    public ResponseEntity<List<ProductRequiredDTO>> showRequired(){
+        List<ProductRequiredDTO> showDetails=productService.getRequiredDetails();
+        System.out.println("Fetched Required Details");
+        return new ResponseEntity<>(showDetails,HttpStatus.OK);
+    }
+
 }
