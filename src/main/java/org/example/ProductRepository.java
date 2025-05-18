@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product,Long> {
 
-    @Query("SELECT new org.example.ProductRequiredDTO(p.productName, p.productPrice) FROM Product p")
+    @Query("SELECT new org.example.ProductRequiredDTO(p.productName, p.productPrice,p.productId) FROM Product p")
     List<ProductRequiredDTO> findRequiredDetails();
 }

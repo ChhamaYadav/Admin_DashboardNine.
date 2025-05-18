@@ -49,4 +49,15 @@ public class ProductController {
         return new ResponseEntity<>(showDetails,HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductByID(@PathVariable Long id){
+        Product product=productService.findById(id);
+        System.out.println("external server for fetching the details by Id is hit");
+        if(product!=null){
+            return new ResponseEntity<>(product,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

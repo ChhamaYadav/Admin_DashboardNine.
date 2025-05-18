@@ -34,8 +34,12 @@ public class ProductService {
 
         for (Product p : products) {
             String firstImage = p.getProductimage_URL().isEmpty() ? null : p.getProductimage_URL().get(0);
-            dtos.add(new ProductRequiredDTO(p.getProductName(), p.getProductPrice(), firstImage));
+            dtos.add(new ProductRequiredDTO(p.getProductName(), p.getProductPrice(),firstImage,p.getProductId()));
         }
         return dtos;
+    }
+
+    public Product findById(Long id){
+       return productRepository.findById(id).orElse(null);
     }
 }
